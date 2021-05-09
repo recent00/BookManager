@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scut.dao.ReaderMapper">
+  <resultMap id="BaseResultMap" type="com.scut.pojo.Reader">
+    <id column="reader_id" jdbcType="INTEGER" property="readerId" />
+    <result column="reader_name" jdbcType="VARCHAR" property="readerName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="reader_pwd" jdbcType="VARCHAR" property="readerPwd" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    reader_id, reader_name, sex, phone, reader_pwd
+  </sql>
+  <select id="selectByExample" parameterType="com.scut.pojo.ReaderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_reader
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_reader
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_reader
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.scut.pojo.ReaderExample">
+    delete from tbl_reader
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.scut.pojo.Reader">
+    insert into tbl_reader (reader_id, reader_name, sex, 
+      phone, reader_pwd)
+    values (#{readerId,jdbcType=INTEGER}, #{readerName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{readerPwd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.scut.pojo.Reader">
+    insert into tbl_reader
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="readerId != null">
+        reader_id,
+      </if>
+      <if test="readerName != null">
+        reader_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="readerPwd != null">
+        reader_pwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="readerId != null">
+        #{readerId,jdbcType=INTEGER},
+      </if>
+      <if test="readerName != null">
+        #{readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="readerPwd != null">
+        #{readerPwd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.scut.pojo.ReaderExample" resultType="java.lang.Long">
+    select count(*) from tbl_reader
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_reader
+    <set>
+      <if test="record.readerId != null">
+        reader_id = #{record.readerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.readerName != null">
+        reader_name = #{record.readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readerPwd != null">
+        reader_pwd = #{record.readerPwd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_reader
+    set reader_id = #{record.readerId,jdbcType=INTEGER},
+      reader_name = #{record.readerName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      reader_pwd = #{record.readerPwd,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.scut.pojo.Reader">
+    update tbl_reader
+    <set>
+      <if test="readerName != null">
+        reader_name = #{readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="readerPwd != null">
+        reader_pwd = #{readerPwd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.scut.pojo.Reader">
+    update tbl_reader
+    set reader_name = #{readerName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      reader_pwd = #{readerPwd,jdbcType=VARCHAR}
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </update>
+</mapper>
