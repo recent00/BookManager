@@ -4,6 +4,7 @@ package com.scut.test;
 import com.scut.dao.AdminMapper;
 import com.scut.dao.LendListMapper;
 import com.scut.pojo.Admin;
+import com.scut.pojo.AdminExample;
 import com.scut.pojo.LendList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,5 +57,15 @@ public class DaoTest {
         for (LendList list : lists) {
             System.out.println(list);
         }
+    }
+
+    @Test
+    public void testAdmin(){
+        AdminExample example = new AdminExample();
+        AdminExample.Criteria criteria = example.createCriteria();
+        criteria.andAdminNameEqualTo("admin1");
+        criteria.andAdminPwdEqualTo("123456");
+        long count = adminMapper.countByExample(example);
+        System.out.println(count==0);
     }
 }
