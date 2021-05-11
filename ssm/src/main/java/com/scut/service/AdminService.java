@@ -13,16 +13,27 @@ public class AdminService {
 
 
     /**
-     * 管理员登录
-     * @param admin
+     * 判断是否有匹配的管理员
+     * @param admin_id
+     * @param password
      * @return 返回false表示登录失败，否则登录成功
      */
-    public boolean login(Admin admin){
+    public boolean hasMatchAdmin(int admin_id,String password){
         AdminExample example = new AdminExample();
         AdminExample.Criteria criteria = example.createCriteria();
-        criteria.andAdminNameEqualTo(admin.getAdminName());
-        criteria.andAdminPwdEqualTo(admin.getAdminPwd());
+        criteria.andAdminIdEqualTo(admin_id);
+        criteria.andAdminPwdEqualTo(password);
         long count = adminMapper.countByExample(example);
         return !(count==0);
+    }
+
+    /**
+     * 通过id查询管理员姓名
+     * @param id
+     * @return
+     */
+    public String getAdminNameById(int id){
+        Admin admin = adminMapper.selectByPrimaryKey(id);
+        return admin.getAdminName();
     }
 }

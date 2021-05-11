@@ -29,18 +29,20 @@ public class ServiceTest {
 
     @Test
     public void testAdminService(){
-        boolean login = adminService.login(new Admin(null, "lys", "1232556"));
+/*        boolean login = adminService.login(new Admin(null, "lys", "1232556"));
+        System.out.println(login==true?"登录成功":"登录失败");*/
+        boolean login = adminService.hasMatchAdmin(1001, "123456");
         System.out.println(login==true?"登录成功":"登录失败");
     }
 
     @Test
     public void testReaderService(){
-/*        boolean login = readerService.login(new Reader(10001, null, 0, null, "abcdefg"));
-        System.out.println(login==true?"登录成功":"登录失败");*/
+        boolean login = readerService.hasMatchReader(10000,"654321");
+        System.out.println(login==true?"登录成功":"登录失败");
 
 /*        boolean checkPhone = readerService.checkPhone(new Reader(10001, "张三", 1, "12325678900", "abcdefg"));
         System.out.println(checkPhone==true?"手机号未被注册过":"手机号已被注册过");*/
 
-        readerService.register(new Reader(null,"李梅",0,"12345678909","654321"));
+        //readerService.register(new Reader(null,"李梅",0,"12345678909","654321"));
     }
 }

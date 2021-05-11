@@ -71,7 +71,7 @@
     <script type="text/javascript">
         $(function () {
             $("#returnButton").click(function () {
-                window.location.href="${ctp}/pages/reader/login.jsp";
+                window.location.href="${ctp}/pages/login/login.jsp";
             })
         })
 

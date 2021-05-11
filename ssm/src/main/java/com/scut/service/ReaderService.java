@@ -12,16 +12,14 @@ public class ReaderService {
     @Autowired
     ReaderMapper readerMapper;
 
-    private ReaderExample readerExample = new ReaderExample();
-    private ReaderExample.Criteria criteria = readerExample.createCriteria();
-
     /**
      * 检查手机号是否已经注册过
      * @param reader
      * @return 返回true表示手机号未被注册过，否则手机号已被注册
      */
     public boolean checkPhone(Reader reader){
-
+        ReaderExample readerExample = new ReaderExample();
+        ReaderExample.Criteria criteria = readerExample.createCriteria();
         criteria.andPhoneEqualTo(reader.getPhone());
         long count = readerMapper.countByExample(readerExample);
         return count==0;
@@ -41,14 +39,22 @@ public class ReaderService {
     }
 
     /**
-     * 普通读者登录
-     * @param reader
+     *
+     * @param reader_id
+     * @param password
      * @return 返回false表示登录失败，否则登录成功
      */
-    public boolean login(Reader reader){
-        criteria.andReaderIdEqualTo(reader.getReaderId());
-        criteria.andReaderPwdEqualTo(reader.getReaderPwd());
+    public boolean hasMatchReader(int reader_id,String password){
+        ReaderExample readerExample = new ReaderExample();
+        ReaderExample.Criteria criteria = readerExample.createCriteria();
+        criteria.andReaderIdEqualTo(reader_id);
+        criteria.andReaderPwdEqualTo(password);
         long count = readerMapper.countByExample(readerExample);
         return !(count==0);
+    }
+
+    public String getReaderNameById(int id){
+        Reader reader = readerMapper.selectByPrimaryKey(id);
+        return reader.getReaderName();
     }
 }
