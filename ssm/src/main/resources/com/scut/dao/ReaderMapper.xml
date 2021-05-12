@@ -99,7 +99,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.scut.pojo.Reader">
+  <insert id="insert" parameterType="com.scut.pojo.Reader" useGeneratedKeys="true" keyProperty="readerId" keyColumn="reader_id">
     insert into tbl_reader (reader_id, reader_name, sex, 
       phone, reader_pwd)
     values (#{readerId,jdbcType=INTEGER}, #{readerName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 

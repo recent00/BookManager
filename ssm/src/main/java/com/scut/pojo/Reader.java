@@ -1,5 +1,7 @@
 package com.scut.pojo;
 
+import javax.validation.constraints.Pattern;
+
 public class Reader {
 
     private Integer readerId;
@@ -8,8 +10,10 @@ public class Reader {
 
     private Integer sex;
 
+    @Pattern(regexp = "(^1\\d{10}$)",message = "提示:手机号不合法")
     private String phone;
 
+    @Pattern(regexp = "(^[a-zA-Z0-9_-]{6,16}$)",message = "提示:密码应是6-16位英文和数字的组合")
     private String readerPwd;
 
     public Reader(Integer readerId, String readerName, Integer sex, String phone, String readerPwd) {

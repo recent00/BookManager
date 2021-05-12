@@ -48,7 +48,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="login.html" style="color: white">${adminName}, 已登录</a>
                 </li>
-                <li><a href="${ctp}/pages/login/login.jsp" style="color: white">退出</a></li>
+                <li><a href="${ctp}/logout" style="color: white">退出</a></li>
             </ul>
         </div>
     </div>

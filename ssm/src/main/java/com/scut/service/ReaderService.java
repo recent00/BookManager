@@ -26,15 +26,17 @@ public class ReaderService {
     }
 
     /**
-     * 注册用户，并将注册的用户保存进数据库
+     * 注册用户，并将注册的用户保存进数据库，注册成功返回读者id，否则返回null
      * @param reader
      */
-    public void register(Reader reader){
+    public Integer register(Reader reader){
         if(checkPhone(reader)){
             readerMapper.insert(reader);
             System.out.println("注册成功");
+            return reader.getReaderId();
         }else {
             System.out.println("手机号已被注册过，注册失败");
+            return null;
         }
     }
 

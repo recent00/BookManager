@@ -37,12 +37,13 @@ public class ServiceTest {
 
     @Test
     public void testReaderService(){
-        boolean login = readerService.hasMatchReader(10000,"654321");
-        System.out.println(login==true?"登录成功":"登录失败");
+/*        boolean login = readerService.hasMatchReader(10000,"654321");
+        System.out.println(login==true?"登录成功":"登录失败");*/
 
 /*        boolean checkPhone = readerService.checkPhone(new Reader(10001, "张三", 1, "12325678900", "abcdefg"));
         System.out.println(checkPhone==true?"手机号未被注册过":"手机号已被注册过");*/
 
-        //readerService.register(new Reader(null,"李梅",0,"12345678909","654321"));
+        Reader reader = new Reader(null,"李白",1,"12345678888","654321");
+        System.out.println(readerService.register(reader));
     }
 }

@@ -30,7 +30,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="reader_info.html">${readerName}, 已登录</a></li>
-                <li><a href="${ctp}/pages/login/login.jsp">退出</a></li>
+                <li><a href="${ctp}/logout">退出</a></li>
             </ul>
         </div>
     </div>
