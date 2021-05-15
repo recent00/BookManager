@@ -5,7 +5,7 @@
     <title>图书馆首页</title>
     <%--静态包含 jQuary文件、bootstrap文件--%>
     <%@include file="/pages/common/head.jsp"%>
-    <script src="js/js.cookie.js"></script>
+    <script src="${ctp}/static/js/js.cookie.js"></script>
     <style>
         #login{
             height: 50%;
@@ -130,19 +130,19 @@
             // 若选择记住登录信息，则进入页面时设置登录信息
             function setLoginStatus() {
                 var loginStatusText = Cookies.get('loginStatus');
-                alert("loginStatusText");
+                alert(loginStatusText);
                 if (loginStatusText) {
                     var loginStatus;
                     try {
                         loginStatus = JSON.parse(loginStatusText);
                         $('#id').val(loginStatus.username);
                         $('#passwd').val(loginStatus.password);
-                        $("#remember").prop('checked',true);
+                        $("#remember").prop('checked',loginStatus.remember);
                     } catch (__) {}
                 }
             }
             // 设置登录信息
-            //setLoginStatus();
+            setLoginStatus();
             $("#loginButton").click(function () {
                 var id =$("#id").val();
                 var password=$("#passwd").val();
@@ -170,11 +170,12 @@
                                     $("#info").text("提示:管理员登陆成功，跳转中...");
                                     window.location.href="${ctp}/pages/admin/admin_main.jsp";
                                 }else if(data.extend.readerName){
-/*                                    if(remember){
-                                        rememberLogin(id,password,remember);
+                                    if(remember){
+                                        rememberLogin(id,password,true);
                                     }else {
-                                        Cookies.remove('loginStatus');
-                                    }*/
+                                        Cookies.set('loginStatus', {
+                                        }, {expires: 0, path: ''});
+                                    }
                                     $("#info").text("提示:普通读者登陆成功，跳转中...");
                                     window.location.href="${ctp}/pages/reader/reader_main.jsp";
                                 }
