@@ -32,8 +32,24 @@ public class AdminService {
      * @param id
      * @return
      */
-    public String getAdminNameById(int id){
+    public Admin getAdminById(int id){
         Admin admin = adminMapper.selectByPrimaryKey(id);
-        return admin.getAdminName();
+        return admin;
     }
+
+    /**
+     * 修改密码
+     * @param adminName
+     * @param newPwd
+     * @return
+     */
+    public boolean updatePwd(String adminName,String newPwd){
+        AdminExample example = new AdminExample();
+        AdminExample.Criteria criteria = example.createCriteria();
+        criteria.andAdminNameEqualTo(adminName);
+        int i = adminMapper.updateByExampleSelective(new Admin(null, adminName, newPwd), example);
+        return i > 0;
+    }
+
+
 }

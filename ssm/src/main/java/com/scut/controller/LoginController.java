@@ -1,11 +1,15 @@
 package com.scut.controller;
 
+import com.scut.pojo.Admin;
+import com.scut.pojo.BookInfo;
 import com.scut.pojo.Msg;
 import com.scut.pojo.Reader;
 import com.scut.service.AdminService;
+import com.scut.service.BookInfoService;
 import com.scut.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +30,8 @@ public class LoginController {
     AdminService adminService;
     @Autowired
     ReaderService readerService;
+    @Autowired
+    BookInfoService bookInfoService;
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
@@ -38,16 +45,14 @@ public class LoginController {
         System.out.println("loginCheck");
         boolean isAdmin = adminService.hasMatchAdmin(id,password);
         boolean isReader = readerService.hasMatchReader(id,password);
-        if(isAdmin){
-            String adminName = adminService.getAdminNameById(id);
-            request.getSession().setAttribute("adminName",adminName);
-            System.out.println(adminName);
-            return Msg.success().add("adminName",adminName);
+       if(isAdmin){
+            Admin admin = adminService.getAdminById(id);
+            request.getSession().setAttribute("admin",admin);
+            return Msg.success().add("admin",admin);
         }else if(isReader){
-            String readerName = readerService.getReaderNameById(id);
-            request.getSession().setAttribute("readerName",readerName);
-            System.out.println(readerName);
-            return Msg.success().add("readerName",readerName);
+            Reader reader = readerService.getReaderById(id);
+            request.getSession().setAttribute("reader",reader);
+            return Msg.success().add("reader",reader);
         }else {
             return Msg.fail().add("msg","用户名或者密码错误");
         }
@@ -68,6 +73,28 @@ public class LoginController {
             Integer readerId = readerService.register(reader);
             if(readerId == null) return Msg.fail().add("info","手机号已被注册过，注册失败");
             else return Msg.success().add("readerId",readerId);
+        }
+    }
+
+    @RequestMapping(value = "/getBooks", method = RequestMethod.GET)
+    public String getBooks(Model model){
+        System.out.println("getBooks");
+        List<BookInfo> books = bookInfoService.getBooks();
+        model.addAttribute("books",books);
+        return "admin/admin_main";
+    }
+
+    @RequestMapping(value = "/changePwd",method = RequestMethod.POST)
+    @ResponseBody
+    public Msg changePwd(HttpServletRequest request,String oldPwd,String newPwd){
+        Admin admin = (Admin) request.getSession().getAttribute("admin");
+        Integer adminId = admin.getAdminId();
+        Admin adminById = adminService.getAdminById(adminId);
+        if(adminById.getAdminPwd().equals(oldPwd)){
+            adminService.updatePwd(admin.getAdminName(),newPwd);
+            return Msg.success().add("msg","密码修改成功");
+        }else {
+            return Msg.fail().add("msg","旧密码错误");
         }
     }
 }

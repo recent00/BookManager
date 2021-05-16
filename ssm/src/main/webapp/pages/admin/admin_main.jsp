@@ -22,26 +22,61 @@
 
 <div id="header"></div>
 
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    温馨提示
-                </h4>
-            </div>
-            <div class="modal-body">
-                使用结束后请安全退出。
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">知道了
-                </button>
-            </div>
+<div style="padding: 70px 550px 10px">
+    <form   method="post" action="" class="form-inline"  id="searchform">
+        <div class="input-group">
+            <input type="text" placeholder="输入图书名" class="form-control" id="search" name="searchWord" class="form-control">
+            <span class="input-group-btn">
+                            <input type="submit" value="搜索" class="btn btn-default">
+            </span>
         </div>
+    </form>
+    <script>
+        $("#searchform").submit(function () {
+            var val=$("#search").val();
+            if(val==''){
+                alert("请输入关键字");
+                return false;
+            }
+        })
+    </script>
+</div>
+
+<div class="panel panel-default" style="width: 90%;margin-left: 5%">
+    <div class="panel-heading" style="background-color: #fff">
+        <h3 class="panel-title">
+            全部图书
+        </h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>书名</th>
+                <th>作者</th>
+                <th>出版社</th>
+                <th>ISBN</th>
+                <th>价格</th>
+                <th>剩余数量</th>
+                <th>编辑</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${books}" var="book">
+                <tr>
+                    <td><c:out value="${book.bookName}"></c:out></td>
+                    <td><c:out value="${book.author}"></c:out></td>
+                    <td><c:out value="${book.publish}"></c:out></td>
+                    <td><c:out value="${book.isbn}"></c:out></td>
+                    <td><c:out value="${book.price}"></c:out></td>
+                    <td><c:out value="${book.number}"></c:out></td>
+                    <td><a href="updatebook.html?bookId=<c:out value="${book.bookId}"></c:out>"><button type="button" class="btn btn-info btn-xs">编辑</button></a></td>
+                    <td><a href="deletebook.html?bookId=<c:out value="${book.bookId}"></c:out>"><button type="button" class="btn btn-danger btn-xs">删除</button></a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

@@ -55,8 +55,8 @@ public class ReaderService {
         return !(count==0);
     }
 
-    public String getReaderNameById(int id){
+    public Reader getReaderById(int id){
         Reader reader = readerMapper.selectByPrimaryKey(id);
-        return reader.getReaderName();
+        return reader;
     }
 }

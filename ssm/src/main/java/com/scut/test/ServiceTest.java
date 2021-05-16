@@ -31,8 +31,11 @@ public class ServiceTest {
     public void testAdminService(){
 /*        boolean login = adminService.login(new Admin(null, "lys", "1232556"));
         System.out.println(login==true?"登录成功":"登录失败");*/
-        boolean login = adminService.hasMatchAdmin(1001, "123456");
-        System.out.println(login==true?"登录成功":"登录失败");
+/*        boolean login = adminService.hasMatchAdmin(1001, "123456");
+        System.out.println(login==true?"登录成功":"登录失败");*/
+        boolean updatePwd = adminService.updatePwd("lys", "654321");
+        if (updatePwd) System.out.println("修改成功");
+        else System.out.println("修改失败");
     }
 
     @Test
@@ -46,4 +49,5 @@ public class ServiceTest {
         Reader reader = new Reader(null,"李白",1,"12345678888","654321");
         System.out.println(readerService.register(reader));
     }
+
 }

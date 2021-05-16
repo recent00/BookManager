@@ -10,7 +10,7 @@
 <%
     pageContext.setAttribute("ctp", request.getContextPath());
 %>
-<script type="text/javascript" src="${ctp}/webjars/jquery/3.3.1-2/jquery.min.js"></script>
 <!-- Bootstrap -->
 <link href="${ctp}/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="${ctp}/webjars/jquery/3.3.1-2/jquery.min.js"></script>
 <script src="${ctp}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>

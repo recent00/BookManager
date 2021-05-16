@@ -130,7 +130,6 @@
             // 若选择记住登录信息，则进入页面时设置登录信息
             function setLoginStatus() {
                 var loginStatusText = Cookies.get('loginStatus');
-                alert(loginStatusText);
                 if (loginStatusText) {
                     var loginStatus;
                     try {
@@ -166,10 +165,10 @@
                         },
                         success:function (data) {
                             if(data.code==100){
-                                if(data.extend.adminName){
+                                if(data.extend.admin){
                                     $("#info").text("提示:管理员登陆成功，跳转中...");
-                                    window.location.href="${ctp}/pages/admin/admin_main.jsp";
-                                }else if(data.extend.readerName){
+                                    window.location.href="${ctp}/getBooks";
+                                }else if(data.extend.reader){
                                     if(remember){
                                         rememberLogin(id,password,true);
                                     }else {
