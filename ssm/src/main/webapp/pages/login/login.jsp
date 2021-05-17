@@ -167,7 +167,7 @@
                             if(data.code==100){
                                 if(data.extend.admin){
                                     $("#info").text("提示:管理员登陆成功，跳转中...");
-                                    window.location.href="${ctp}/getBooks";
+                                    window.location.href="${ctp}/pages/admin/admin_main.jsp";
                                 }else if(data.extend.reader){
                                     if(remember){
                                         rememberLogin(id,password,true);

@@ -2,15 +2,19 @@ package com.scut.test;
 
 import com.scut.dao.ReaderMapper;
 import com.scut.pojo.Admin;
+import com.scut.pojo.BookInfo;
 import com.scut.pojo.Reader;
 import com.scut.pojo.ReaderExample;
 import com.scut.service.AdminService;
+import com.scut.service.BookInfoService;
 import com.scut.service.ReaderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Spring单元测试
@@ -25,6 +29,9 @@ public class ServiceTest {
 
     @Autowired
     ReaderService readerService;
+
+    @Autowired
+    BookInfoService bookInfoService;
 
 
     @Test
@@ -48,6 +55,16 @@ public class ServiceTest {
 
         Reader reader = new Reader(null,"李白",1,"12345678888","654321");
         System.out.println(readerService.register(reader));
+    }
+
+    @Test
+    public void testBookInfoService(){
+        List<BookInfo> books = bookInfoService.getBooksByBookName("8");
+        if(books.size()==0)
+            System.out.println("您查询的记录不存在");
+        for (BookInfo book : books) {
+            System.out.println(book);
+        }
     }
 
 }
