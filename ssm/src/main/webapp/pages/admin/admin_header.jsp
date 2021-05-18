@@ -115,6 +115,7 @@
 <script type="text/javascript">
     $('.dropdown-toggle').dropdown();
     function addBook() {
+        reset_form("#bookAddModal form");
         //弹出模态框
         $("#bookAddModal").modal({
             backdrop:"static"//点击背景不消失

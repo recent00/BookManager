@@ -65,4 +65,40 @@ public class BookInfoService {
     public void saveBook(BookInfo bookInfo){
         bookInfoMapper.insertSelective(bookInfo);
     }
+
+    /**
+     * 通过id获取图书
+     * @param id
+     * @return
+     */
+    public BookInfo getBookInfoById(Integer id){
+        return bookInfoMapper.selectByPrimaryKey(id);
+    }
+
+    /**
+     * 更新图书
+     * @param bookInfo
+     */
+    public void updateBook(BookInfo bookInfo){
+        bookInfoMapper.updateByPrimaryKeySelective(bookInfo);
+    }
+
+    /**
+     * 删除图书（单个删除）
+     * @param id
+     */
+    public void deleteBook(Integer id){
+        bookInfoMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 删除图书（批量删除）
+     * @param del_ids
+     */
+    public void deleteBatch(List<Integer> del_ids){
+        BookInfoExample example = new BookInfoExample();
+        BookInfoExample.Criteria criteria = example.createCriteria();
+        criteria.andBookIdIn(del_ids);
+        bookInfoMapper.deleteByExample(example);
+    }
 }
