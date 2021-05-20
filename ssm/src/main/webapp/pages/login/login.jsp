@@ -101,6 +101,12 @@
             </label>
         </div>
 
+        <div class="item-inner">
+            <label>验证码：</label>
+            <input class="itxt" type="text" style="width: 80px;" name="code" id="code" value=""/>
+            <img  alt="" src="http://localhost:8080/SSM-CRUD/kaptcha.jpg"  style="width: 100px; height: 28px;" id="code_id">
+        </div>
+
         <p style="text-align: right;color: red;position: absolute" id="info"></p><br/>
         <button id="loginButton"  class="btn btn-primary  btn-block">登陆</button>
         <button id="registerButton"  class="btn btn-primary  btn-block">注册</button>
@@ -119,6 +125,13 @@
 
 
         $(function () {
+
+            //验证码点击切换图片
+            $("#code_id").click(function () {
+                // 在事件响应的 function 函数中有一个 this 对象。这个 this 对象，是当前正在响应事件的 dom 对象
+                // src 属性表示验证码 img 标签的 图片路径。它可读，可写
+                this.src = "http://localhost:8080/SSM-CRUD/kaptcha.jpg?d=" + new Date();
+            })
             // 记住登录信息  30天有效期
             function rememberLogin(username, password, checked) {
                 Cookies.set('loginStatus', {
@@ -146,12 +159,15 @@
                 var id =$("#id").val();
                 var password=$("#passwd").val();
                 var remember=$("#remember").prop('checked');
+                var code = $("#code").val();
                 $("#info").text("");
                 if (id == '') {
                     $("#info").text("提示:账号不能为空");
                 }
                 else if( password ==''){
                     $("#info").text("提示:密码不能为空");
+                }else if(code == ""){
+                    $("#info").text("提示:验证码不能为空");
                 }
                 else if(isNaN( id )){/!*用于检查其参数是否是非数字值。*!/
                     $("#info").text("提示:账号必须为数字");
@@ -161,7 +177,9 @@
                         type: "POST",
                         url: "${ctp}/loginCheck",
                         data:{
-                            "id":id,"password":password
+                            "id":id,
+                            "password":password,
+                            "code": code
                         },
                         success:function (data) {
                             if(data.code==100){

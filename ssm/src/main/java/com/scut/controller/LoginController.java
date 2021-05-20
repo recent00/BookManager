@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
 @Controller
 public class LoginController {
@@ -39,20 +42,28 @@ public class LoginController {
 
     @RequestMapping(value = "/loginCheck",method = RequestMethod.POST)
     @ResponseBody
-    public Msg loginCheck(Integer id,String password,HttpServletRequest request){
+    public Msg loginCheck(Integer id, String password, String code, HttpServletRequest request){
         System.out.println("loginCheck");
-        boolean isAdmin = adminService.hasMatchAdmin(id,password);
-        boolean isReader = readerService.hasMatchReader(id,password);
-       if(isAdmin){
-            Admin admin = adminService.getAdminById(id);
-            request.getSession().setAttribute("admin",admin);
-            return Msg.success().add("admin",admin);
-        }else if(isReader){
-            Reader reader = readerService.getReaderById(id);
-            request.getSession().setAttribute("reader",reader);
-            return Msg.success().add("reader",reader);
+        //获取Session中的验证码
+        String token = (String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        //删除Session中的验证码
+        request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+        if(token != null && token.equalsIgnoreCase(code)){
+            boolean isAdmin = adminService.hasMatchAdmin(id,password);
+            boolean isReader = readerService.hasMatchReader(id,password);
+            if(isAdmin){
+                Admin admin = adminService.getAdminById(id);
+                request.getSession().setAttribute("admin",admin);
+                return Msg.success().add("admin",admin);
+            }else if(isReader){
+                Reader reader = readerService.getReaderById(id);
+                request.getSession().setAttribute("reader",reader);
+                return Msg.success().add("reader",reader);
+            }else {
+                return Msg.fail().add("msg","用户名或者密码错误");
+            }
         }else {
-            return Msg.fail().add("msg","用户名或者密码错误");
+            return Msg.fail().add("msg","验证码有误");
         }
     }
 
