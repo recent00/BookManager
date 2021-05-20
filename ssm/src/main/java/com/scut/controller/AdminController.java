@@ -17,7 +17,14 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @RequestMapping(value = "/changePwd",method = RequestMethod.POST)
+    /**
+     * 修改密码
+     * @param request
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     */
+    @RequestMapping(value = "/changePwd",method = RequestMethod.PUT)
     @ResponseBody
     public Msg changePwd(HttpServletRequest request, String oldPwd, String newPwd){
         Admin admin = (Admin) request.getSession().getAttribute("admin");

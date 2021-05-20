@@ -55,8 +55,38 @@ public class ReaderService {
         return !(count==0);
     }
 
+    /**
+     * 通过id获取读者
+     * @param id
+     * @return
+     */
     public Reader getReaderById(int id){
         Reader reader = readerMapper.selectByPrimaryKey(id);
         return reader;
+    }
+
+    /**
+     * 修改密码
+     * @param readerName
+     * @param newPwd
+     * @return
+     */
+    public boolean updatePwd(String readerName,String newPwd){
+        ReaderExample example = new ReaderExample();
+        ReaderExample.Criteria criteria = example.createCriteria();
+        criteria.andReaderNameEqualTo(readerName);
+        int i = readerMapper.updateByExampleSelective(new Reader(null, readerName, null,null,newPwd), example);
+        return i > 0;
+    }
+
+    /**
+     * 修改手机号码
+     * @param phone
+     */
+    public void updatePhone(Integer readerId,String phone){
+        ReaderExample example = new ReaderExample();
+        ReaderExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneEqualTo(phone);
+        readerMapper.updateByPrimaryKeySelective(new Reader(readerId,null,null,phone,null));
     }
 }

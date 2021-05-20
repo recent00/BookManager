@@ -65,7 +65,7 @@
                 }else {
                     $.ajax({
                         type:"PUT",
-                        url:"${ctp}/changePwd",
+                        url:"${ctp}/reader_changePwd",
                         data:{
                             "oldPwd":oldPwd,
                             "newPwd":newPwd
@@ -73,7 +73,7 @@
                         success:function (data) {
                             if(data.code==100){
                                 alert("密码修改成功");
-                                window.location.href = "${ctp}/pages/admin/admin_main.jsp";
+                                window.location.href = "${ctp}/pages/reader/reader_main.jsp";
                             }else {
                                 $("#info").text(data.extend.msg);
                             }
@@ -82,7 +82,7 @@
                 }
             })
             $("#returnButton").click(function () {
-                window.location.href="${ctp}/pages/admin/admin_main.jsp";
+                window.location.href="${ctp}/pages/reader/reader_main.jsp";
             })
         })
     </script>

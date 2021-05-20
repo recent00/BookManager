@@ -197,6 +197,7 @@
                                     window.location.href="${ctp}/pages/reader/reader_main.jsp";
                                 }
                             }else {
+                                document.getElementById("code_id").src = "http://localhost:8080/SSM-CRUD/kaptcha.jpg?d=" + new Date();
                                 $("#info").text(data.extend.msg);
                             }
                         }

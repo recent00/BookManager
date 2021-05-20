@@ -1,13 +1,9 @@
 package com.scut.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.scut.pojo.Admin;
-import com.scut.pojo.BookInfo;
 import com.scut.pojo.Msg;
 import com.scut.pojo.Reader;
 import com.scut.service.AdminService;
-import com.scut.service.BookInfoService;
 import com.scut.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +28,25 @@ public class LoginController {
     @Autowired
     ReaderService readerService;
 
+    /**
+     * 注销登录
+     * @param request
+     * @return
+     */
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request){
         request.getSession().invalidate();
         return "redirect:/pages/login/login.jsp";
     }
 
+    /**
+     * 登录
+     * @param id
+     * @param password
+     * @param code
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/loginCheck",method = RequestMethod.POST)
     @ResponseBody
     public Msg loginCheck(Integer id, String password, String code, HttpServletRequest request){
@@ -67,6 +74,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * 注册
+     * @param reader
+     * @param result
+     * @return
+     */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @ResponseBody
     public Msg register(@Valid Reader reader, BindingResult result){
