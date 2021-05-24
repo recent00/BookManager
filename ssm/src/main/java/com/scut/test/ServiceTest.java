@@ -7,6 +7,7 @@ import com.scut.pojo.Reader;
 import com.scut.pojo.ReaderExample;
 import com.scut.service.AdminService;
 import com.scut.service.BookInfoService;
+import com.scut.service.LendService;
 import com.scut.service.ReaderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,8 @@ public class ServiceTest {
     @Autowired
     BookInfoService bookInfoService;
 
-
+    @Autowired
+    LendService lendService;
     @Test
     public void testAdminService(){
 /*        boolean login = adminService.login(new Admin(null, "lys", "1232556"));
@@ -67,4 +69,15 @@ public class ServiceTest {
         }
     }
 
+    @Test
+    public void testLendService(){
+        boolean b = lendService.isLend(5, 10002);
+        if(b) System.out.println("图书已经借过，借阅失败");
+        else System.out.println("借阅成功");
+    }
+
+    @Test
+    public void testBookUpdate(){
+        //bookInfoService.updateNumber(6);
+    }
 }

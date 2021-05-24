@@ -17,6 +17,8 @@ public class LendList {
 
     private Reader reader;
 
+    private Integer bookStatus;
+
     public LendList() {
     }
 
@@ -28,6 +30,33 @@ public class LendList {
         this.backDate = backDate;
         this.bookInfo = bookInfo;
         this.reader = reader;
+    }
+
+    public LendList(Integer serNum, Integer bookId, Integer readerId, Date lendDate, Date backDate, BookInfo bookInfo, Reader reader, Integer bookStatus) {
+        this.serNum = serNum;
+        this.bookId = bookId;
+        this.readerId = readerId;
+        this.lendDate = lendDate;
+        this.backDate = backDate;
+        this.bookInfo = bookInfo;
+        this.reader = reader;
+        this.bookStatus = bookStatus;
+    }
+
+    public LendList(Integer bookId, Integer readerId, Date lendDate, Date backDate,Integer bookStatus) {
+        this.bookId = bookId;
+        this.readerId = readerId;
+        this.lendDate = lendDate;
+        this.backDate = backDate;
+        this.bookStatus = bookStatus;
+    }
+
+    public Integer getBookStatus() {
+        return bookStatus;
+    }
+
+    public void setBookStatus(Integer bookStatus) {
+        this.bookStatus = bookStatus;
     }
 
     public BookInfo getBookInfo() {
@@ -96,6 +125,7 @@ public class LendList {
                 ", backDate=" + backDate +
                 ", bookInfo=" + bookInfo +
                 ", reader=" + reader +
+                ", bookStatus=" + bookStatus +
                 '}';
     }
 }

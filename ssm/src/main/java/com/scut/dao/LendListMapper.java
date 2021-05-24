@@ -2,8 +2,12 @@ package com.scut.dao;
 
 import com.scut.pojo.LendList;
 import com.scut.pojo.LendListExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import javax.xml.crypto.Data;
 
 public interface LendListMapper {
     long countByExample(LendListExample example);
@@ -24,7 +28,15 @@ public interface LendListMapper {
 
     LendList selectByPrimaryKeyWithBookAndReader(Integer serNum);
 
-    List<LendList> selectByReaderNameWithBookAndReader(String name);
+    List<LendList> selectByReaderIdWithBookAndReader(Integer readerId);
+
+    List<LendList> selectWithStatusLog();
+
+    List<LendList> selectWithStatusLogByReaderId(Integer readerId);
+
+    List<LendList> selectWithStatusAudit();
+
+    Integer selectStatusByBookIdAndReaderId(@Param("bookId") Integer bookId,@Param("readerId") Integer readerId);
 
     int updateByExampleSelective(@Param("record") LendList record, @Param("example") LendListExample example);
 
@@ -33,4 +45,8 @@ public interface LendListMapper {
     int updateByPrimaryKeySelective(LendList record);
 
     int updateByPrimaryKey(LendList record);
+
+    int updateStatusByPrimaryKey(@Param("serNum") Integer serNum, @Param("status") Integer status);
+
+    int updateReturnByPrimaryKey(@Param("serNum") Integer serNum, @Param("status") Integer status, @Param("backDate") Date backDate);
 }

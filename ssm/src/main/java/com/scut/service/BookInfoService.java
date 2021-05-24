@@ -84,6 +84,21 @@ public class BookInfoService {
     }
 
     /**
+     * 更新库存  0:库存减一   1：库存加一
+     */
+    public void updateNumber(Integer bookId, Integer flag){
+        BookInfo bookInfo = bookInfoMapper.selectByPrimaryKey(bookId);
+        Integer newNumber = null;
+        if(flag == 0){
+            newNumber = bookInfo.getNumber() - 1;
+        }else {
+            newNumber = bookInfo.getNumber() + 1;
+        }
+        bookInfo.setNumber(newNumber);
+        bookInfoMapper.updateByPrimaryKeySelective(bookInfo);
+    }
+
+    /**
      * 删除图书（单个删除）
      * @param id
      */
