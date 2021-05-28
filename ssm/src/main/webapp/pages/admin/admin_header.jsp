@@ -90,9 +90,9 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="lendlist.html">借还审理</a></li>
+                        <li><a href="${ctp}/pages/admin/admin_lend_audit.jsp">借还审理</a></li>
                         <li class="divider"></li>
-                        <li><a href="lendlist.html">借还日志</a></li>
+                        <li><a href="${ctp}/pages/admin/admin_lend_list.jsp">借还日志</a></li>
                     </ul>
                 </li>
                 <li >

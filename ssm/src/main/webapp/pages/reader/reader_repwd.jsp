@@ -11,9 +11,15 @@
 <head>
     <title>修改密码</title>
     <%@include file="/pages/common/head.jsp"%>
+    <script>
+        $(function () {
+            $('#header').load('${ctp}/pages/reader/reader_header.jsp');
+        })
+    </script>
 </head>
 
 <body background="${ctp}/static/img/book2.jpg" style=" background-repeat:no-repeat ;background-size:100% 100%;background-attachment: fixed;">
+<div id="header"></div>
 <div class="panel panel-default" id="rePasswd">
     <div class="panel-heading" style="background-color: #fff">
         <h3 class="panel-title">修改密码</h3>

@@ -84,10 +84,14 @@ public class BookInfoService {
     }
 
     /**
-     * 更新库存  0:库存减一   1：库存加一
+     * 更新库存
+     * @param bookId
+     * @param flag 0:库存减一   1：库存加一
+     * @return false:库存为空 true:更新成功
      */
-    public void updateNumber(Integer bookId, Integer flag){
+    public boolean updateNumber(Integer bookId, Integer flag){
         BookInfo bookInfo = bookInfoMapper.selectByPrimaryKey(bookId);
+        if(bookInfo.getNumber() == 0) return false;
         Integer newNumber = null;
         if(flag == 0){
             newNumber = bookInfo.getNumber() - 1;
@@ -96,6 +100,7 @@ public class BookInfoService {
         }
         bookInfo.setNumber(newNumber);
         bookInfoMapper.updateByPrimaryKeySelective(bookInfo);
+        return true;
     }
 
     /**

@@ -15,6 +15,7 @@
     <result column="reader_id" jdbcType="INTEGER" property="readerId" />
     <result column="lend_date" jdbcType="DATE" property="lendDate" />
     <result column="back_date" jdbcType="DATE" property="backDate" />
+    <result column="book_status" jdbcType="INTEGER" property="bookStatus"/>
     <association property="bookInfo" javaType="com.scut.pojo.BookInfo">
         <id property="bookId" column="book_id"/>
         <result property="bookName" column="book_name"/>
@@ -23,6 +24,15 @@
       <id property="readerId" column="reader_id"/>
       <result property="readerName" column="reader_name"/>
     </association>
+  </resultMap>
+
+  <resultMap id="WithStatusResultMap" type="com.scut.pojo.LendList">
+    <id column="ser_num" jdbcType="INTEGER" property="serNum" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="reader_id" jdbcType="INTEGER" property="readerId" />
+    <result column="lend_date" jdbcType="DATE" property="lendDate" />
+    <result column="back_date" jdbcType="DATE" property="backDate" />
+    <result column="book_status" jdbcType="INTEGER" property="bookStatus"/>
   </resultMap>
 
   <sql id="Example_Where_Clause">
@@ -87,8 +97,12 @@
     ser_num, book_id, reader_id, lend_date, back_date
   </sql>
   <sql id="WithBookAndReader_Column_List">
-    ser_num, book_name, reader_name, lend_date, back_date
+    ser_num, book_name, reader_name, lend_date, back_date,book_status
   </sql>
+  <sql id="WithStatus_Column_List">
+    ser_num, book_id, reader_id, lend_date, back_date,book_status
+  </sql>
+
   <select id="selectByExample" parameterType="com.scut.pojo.LendListExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -123,6 +137,45 @@
     </if>
   </select>
 
+  <select id="selectByReaderIdWithBookAndReader" resultMap="WithReaderAndBookResultMap">
+    select
+    <include refid="WithBookAndReader_Column_List" />
+    FROM tbl_lend_list l
+    JOIN tbl_book_info b
+    ON l.`book_id` = b.`book_id`
+    JOIN tbl_reader r
+    ON l.`reader_id` = r.`reader_id`
+    where r.`reader_id` = #{readerId}
+  </select>
+
+  <select id="selectWithStatusLog" parameterType="com.scut.pojo.LendList" resultMap="WithStatusResultMap">
+    select
+    <include refid="WithStatus_Column_List"/>
+    from tbl_lend_list
+    where book_status != 1
+  </select>
+
+  <select id="selectWithStatusAudit" parameterType="com.scut.pojo.LendList" resultMap="WithStatusResultMap">
+    select
+    <include refid="WithStatus_Column_List"/>
+    from tbl_lend_list
+    where book_status=1
+  </select>
+
+  <select id="selectStatusByBookIdAndReaderId" resultType="java.lang.Integer">
+    select
+    book_status
+    from tbl_lend_list
+    where book_id = #{bookId,jdbcType=INTEGER} and reader_id = #{readerId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectWithStatusLogByReaderId" resultMap="WithStatusResultMap">
+    select
+    <include refid="WithStatus_Column_List"/>
+    from tbl_lend_list
+    where reader_id=#{readerId}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -141,18 +194,6 @@
     where ser_num = #{serNum,jdbcType=INTEGER}
   </select>
 
-  <select id="selectByReaderNameWithBookAndReader" resultMap="WithReaderAndBookResultMap">
-    select
-    b.`book_name`,l.`lend_date`,l.`back_date`
-    FROM tbl_lend_list l
-    JOIN tbl_book_info b
-    ON l.`book_id` = b.`book_id`
-    JOIN tbl_reader r
-    ON l.`reader_id` = r.`reader_id`
-    where r.`reader_name` = #{name}
-  </select>
-
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tbl_lend_list
     where ser_num = #{serNum,jdbcType=INTEGER}
@@ -166,10 +207,10 @@
   </delete>
 
   <insert id="insert" parameterType="com.scut.pojo.LendList">
-    insert into tbl_lend_list (ser_num, book_id, reader_id, 
-      lend_date, back_date)
-    values (#{serNum,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{readerId,jdbcType=INTEGER}, 
-      #{lendDate,jdbcType=DATE}, #{backDate,jdbcType=DATE})
+    insert into tbl_lend_list (book_id, reader_id,
+      lend_date, back_date,book_status)
+    values (#{bookId,jdbcType=INTEGER}, #{readerId,jdbcType=INTEGER},
+      #{lendDate,jdbcType=DATE}, #{backDate,jdbcType=DATE}, #{bookStatus,jdbcType=INTEGER})
   </insert>
 
   <insert id="insertSelective" parameterType="com.scut.pojo.LendList">
@@ -278,6 +319,19 @@
       reader_id = #{readerId,jdbcType=INTEGER},
       lend_date = #{lendDate,jdbcType=DATE},
       back_date = #{backDate,jdbcType=DATE}
+    where ser_num = #{serNum,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateStatusByPrimaryKey" parameterType="java.lang.Integer">
+    update tbl_lend_list
+    set book_status = #{status,jdbcType=INTEGER}
+    where ser_num = #{serNum,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateReturnByPrimaryKey">
+    update tbl_lend_list
+    set book_status = #{status,jdbcType=INTEGER},
+        back_date = #{backDate}
     where ser_num = #{serNum,jdbcType=INTEGER}
   </update>
 

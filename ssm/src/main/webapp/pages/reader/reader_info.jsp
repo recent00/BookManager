@@ -4,11 +4,16 @@
 <head>
     <title>${reader.readerName}的主页</title>
     <%@include file="/pages/common/head.jsp"%>
+    <script>
+        $(function () {
+            $('#header').load('${ctp}/pages/reader/reader_header.jsp');
+        })
+    </script>
 </head>
 <body background="${ctp}/static/img/lizhi.jpg" style=" background-repeat:no-repeat ;
 background-size:100% 100%;
 background-attachment: fixed;">
-
+<div id="header"></div>
 <div class="modal fade" id="rePhone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" >
         <div class="modal-content">

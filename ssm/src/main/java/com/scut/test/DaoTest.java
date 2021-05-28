@@ -80,12 +80,12 @@ public class DaoTest {
 
 /*        List<LendList> lendLists = lendListMapper.selectWithStatusAudit();
         */
-        List<LendList> lendLists = lendListMapper.selectWithStatusLogByReaderId(10007);
+/*        List<LendList> lendLists = lendListMapper.selectWithStatusLogByReaderId(10007);
         for (LendList lendList : lendLists) {
             System.out.println(lendList);
-        }
-/*        Integer status = lendListMapper.selectStatusByBookIdAndReaderId(10, 10002);
-        System.out.println(status);*/
+        }*/
+        List<Integer> list = lendListMapper.selectStatusByBookIdAndReaderId(9, 10007);
+        System.out.println(list);
     }
 
     @Test

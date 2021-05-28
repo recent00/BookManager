@@ -42,9 +42,11 @@ public class LendService {
      * @return true表示已经借阅，false表示尚未借阅
      */
     public boolean isLend(Integer bookId,Integer readerId){
-        Integer status = lendListMapper.selectStatusByBookIdAndReaderId(bookId, readerId);
-        if(status == null || status == 0 || status == 3) return false;
-        else return true;
+        List<Integer> list = lendListMapper.selectStatusByBookIdAndReaderId(bookId, readerId);
+        for (Integer status : list) {
+            if(status == 1 || status==2) return true;
+        }
+        return false;
     }
 
     /**

@@ -36,7 +36,7 @@ public interface LendListMapper {
 
     List<LendList> selectWithStatusAudit();
 
-    Integer selectStatusByBookIdAndReaderId(@Param("bookId") Integer bookId,@Param("readerId") Integer readerId);
+    List<Integer> selectStatusByBookIdAndReaderId(@Param("bookId") Integer bookId,@Param("readerId") Integer readerId);
 
     int updateByExampleSelective(@Param("record") LendList record, @Param("example") LendListExample example);
 

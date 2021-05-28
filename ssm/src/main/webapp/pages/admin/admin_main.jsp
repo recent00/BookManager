@@ -200,7 +200,7 @@
         })
     }
 
-    //解析显示员工数据
+    //解析显示图书数据
     function build_books_table(result) {
         //清空table表格
         $("#book_table tbody").empty();

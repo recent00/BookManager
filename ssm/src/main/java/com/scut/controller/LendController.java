@@ -66,8 +66,12 @@ public class LendController {
     @ResponseBody
     public Msg lendBook(Integer bookId,Integer readerId){
         boolean b = lendService.lendBook(bookId, readerId);
-        bookInfoService.updateNumber(bookId,0);
-        if(b) return Msg.success().add("msg","请等待管理员审核");
+        if(b) {
+            boolean isNotEmpty = bookInfoService.updateNumber(bookId, 0);
+            if(isNotEmpty)
+                return Msg.success().add("msg","请等待管理员审核");
+            else return Msg.fail().add("msg","您借阅的图书库存为空");
+        }
         return Msg.fail().add("msg","您已借阅该图书，借阅失败");
     }
 

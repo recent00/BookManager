@@ -71,9 +71,8 @@ public class ServiceTest {
 
     @Test
     public void testLendService(){
-        boolean b = lendService.isLend(5, 10002);
-        if(b) System.out.println("图书已经借过，借阅失败");
-        else System.out.println("借阅成功");
+        boolean b = lendService.lendBook(9, 10007);
+        System.out.println(b);
     }
 
     @Test
