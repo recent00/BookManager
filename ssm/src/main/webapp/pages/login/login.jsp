@@ -99,8 +99,8 @@
             <label>
                 <input type="checkbox" id="remember">记住密码
             </label>
+            <a href="${ctp}/pages/login/find_pwd.jsp">找回密码</a>
         </div>
-
         <div class="item-inner">
             <label>验证码：</label>
             <input class="itxt" type="text" style="width: 80px;" name="code" id="code" value=""/>
