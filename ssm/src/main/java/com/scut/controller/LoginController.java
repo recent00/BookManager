@@ -5,6 +5,7 @@ import com.scut.pojo.Msg;
 import com.scut.pojo.Reader;
 import com.scut.service.AdminService;
 import com.scut.service.ReaderService;
+import com.scut.utils.ZhenziSSmsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -95,6 +96,42 @@ public class LoginController {
             Integer readerId = readerService.register(reader);
             if(readerId == null) return Msg.fail().add("info","手机号已被注册过，注册失败");
             else return Msg.success().add("readerId",readerId);
+        }
+    }
+
+
+    private String MyCode;
+
+    /**
+     * 忘记密码获取手机验证码
+     * @param id
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/getCode")
+    @ResponseBody
+    public Msg getCode(Integer id,String phone){
+        Reader reader = readerService.getReaderById(id);
+        if(phone.equals(reader.getPhone())){
+            MyCode = ZhenziSSmsUtils.getCode();
+            ZhenziSSmsUtils.sendToPhone(phone,MyCode);
+            return Msg.success().add("msg","");
+        }else {
+            return Msg.fail().add("msg","手机号码不正确");
+        }
+    }
+    @RequestMapping(value = "/forgetPwd",method = RequestMethod.PUT)
+    @ResponseBody
+    public Msg forgetPwd(Integer id,String phone,String code,String newPwd){
+        if(!code.equals(MyCode)){
+            return Msg.fail().add("msg","验证码错误");
+        }
+        Reader reader = readerService.getReaderById(id);
+        if(phone.equals(reader.getPhone())){
+            readerService.updatePwd(reader.getReaderName(),newPwd);
+            return Msg.success();
+        }else {
+            return Msg.fail().add("msg","手机号码不正确");
         }
     }
 }
